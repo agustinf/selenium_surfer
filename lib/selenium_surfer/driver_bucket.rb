@@ -32,8 +32,14 @@ module SeleniumSurfer
           # setup a custom client to use longer timeouts
           client = Selenium::WebDriver::Remote::Http::Default.new
           client.timeout = SeleniumSurfer.config[:remote_timeout]
+          
+          #setup a custom capabilities request
+          capabilities = Selenium::WebDriver::Remote::Capabilities.new
+          capabilities.browser_name = SeleniumSurfer.config[:default_browser] 
+          capabilities.platform = SeleniumSurfer.config[:default_platform]
+          capabilities.version = SeleniumSurfer.config[:default_version]
 
-          @driver = Selenium::WebDriver.for :remote, :url => url, :http_client => client
+          @driver = Selenium::WebDriver.for :remote, :url => url, :http_client => client, :desired_capabilities => capabilities
         else
           @driver = Selenium::WebDriver.for driver_name.to_sym
 
